@@ -4,6 +4,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.util.Random;
 
 public class Game extends Canvas implements Runnable{
 	
@@ -15,6 +16,7 @@ public class Game extends Canvas implements Runnable{
 	private Thread thread;
 	private boolean running = false;
 	
+	private Random r;
 	private Handler handler;
 	private HUD hud;
 	
@@ -26,8 +28,13 @@ public class Game extends Canvas implements Runnable{
 		
 		hud = new HUD();
 		
-		handler.addObject(new Player(WIDTH/2-32, HEIGHT/2-32, ID.Player));
-		handler.addObject(new Enemy(WIDTH/2-32, HEIGHT/2-32, ID.Enemy));
+		r = new Random();
+		
+		handler.addObject(new Player(WIDTH/2-32, HEIGHT/2-32, ID.Player, handler));
+		handler.addObject(new Enemy(r.nextInt(WIDTH), r.nextInt(HEIGHT), ID.Enemy, handler));
+		handler.addObject(new Enemy(r.nextInt(WIDTH), r.nextInt(HEIGHT), ID.Enemy, handler));
+		handler.addObject(new Enemy(r.nextInt(WIDTH), r.nextInt(HEIGHT), ID.Enemy, handler));
+	
 	}
 
 	public synchronized void start() {
